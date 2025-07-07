@@ -38,7 +38,7 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDto> editGroup(GroupDto groupDto) {
         Optional<Group>groupOptional = groupRepository.findById(groupDto.getId());
         groupOptional.ifPresent(group -> {
-            group.setName(groupDto.getName);
+            group.setName(groupDto.getName());
             group.setPoints(groupDto.getPoints());
         });
 
