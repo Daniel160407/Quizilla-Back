@@ -10,4 +10,8 @@ public interface QuizService {
     List<QuizDto> getQuizzes();
 
     List<QuizDto> addQuiz(QuizDto quizDto);
+
+    List<QuizDto> editQuiz(QuizDto quizDto);
+
+    List<QuizDto> deleteQuiz(Integer id);
 }

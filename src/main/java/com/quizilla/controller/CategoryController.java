@@ -32,4 +32,16 @@ public class CategoryController {
         List<CategoryDto> categoryDtos = categoryService.addCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryDtos);
     }
+
+    @PutMapping
+    public ResponseEntity<?> editCategory(@RequestBody CategoryDto categoryDto) {
+        List<CategoryDto> categoryDtos = categoryService.editCategory(categoryDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryDtos);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteCategory(@RequestParam Integer id) {
+        List<CategoryDto> categoryDtos = categoryService.deleteCategory(id);
+        return ResponseEntity.ok(categoryDtos);
+    }
 }

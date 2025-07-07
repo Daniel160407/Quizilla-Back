@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,17 @@ public class GroupController {
     public ResponseEntity<?> addGroup(@RequestBody GroupDto groupDto) {
         groupService.addGroup(groupDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping
+    public ResponseEntity<?> editGroup(@RequestBody GroupDto groupDto) {
+        List<GroupDto> groupDtos = groupService.editGroup(groupDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(groupDtos);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteGroup(@RequestParam Integer id) {
+        List<GroupDto> groupDtos = groupService.deleteGroup(id);
+        return ResponseEntity.ok(groupDtos);
     }
 }

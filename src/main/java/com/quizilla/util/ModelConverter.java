@@ -17,6 +17,7 @@ public class ModelConverter {
         List<QuizDto> quizDtos = new ArrayList<>();
         quizzes.forEach(quiz -> quizDtos.add(
                 QuizDto.builder()
+                        .id(quiz.getId())
                         .categoryId(quiz.getCategoryId())
                         .type(quiz.getType())
                         .question(quiz.getQuestion())
@@ -31,7 +32,7 @@ public class ModelConverter {
 
     public List<GroupDto> convertGroupsToDtoList(List<Group> groups) {
         List<GroupDto> groupDtos = new ArrayList<>();
-        groups.forEach(group -> groupDtos.add(new GroupDto(group.getName(), group.getPoints())));
+        groups.forEach(group -> groupDtos.add(new GroupDto(group.getId(), group.getName(), group.getPoints())));
         return groupDtos;
     }
 
@@ -55,6 +56,7 @@ public class ModelConverter {
 
     public Group convert(GroupDto groupDto) {
         return Group.builder()
+                .id(groupDto.getId())
                 .name(groupDto.getName())
                 .points(groupDto.getPoints())
                 .build();
