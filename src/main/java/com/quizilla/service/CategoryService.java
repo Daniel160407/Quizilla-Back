@@ -10,4 +10,8 @@ public interface CategoryService {
     List<CategoryDto> getCategories();
 
     List<CategoryDto> addCategory(CategoryDto categoryDto);
+
+    List<CategoryDto> editCategory(CategoryDto categoryDto);
+
+    List<CategoryDto> deleteCategory(Integer id);
 }

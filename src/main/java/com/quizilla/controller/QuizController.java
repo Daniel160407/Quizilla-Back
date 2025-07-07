@@ -32,4 +32,16 @@ public class QuizController {
         List<QuizDto> quizDtos = quizService.addQuiz(quizDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(quizDtos);
     }
+
+    @PutMapping
+    public ResponseEntity<?> editQuiz(@RequestBody QuizDto quizDto) {
+        List<QuizDto> quizDtos = quizService.editQuiz(quizDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(quizDtos);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteQuiz(@RequestParam Integer id) {
+        List<QuizDto> quizDtos = quizService.deleteQuiz(id);
+        return ResponseEntity.ok(quizDtos);
+    }
 }

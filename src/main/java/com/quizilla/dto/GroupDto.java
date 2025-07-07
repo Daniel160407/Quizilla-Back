@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupDto {
+    private Integer id;
     private String name;
     private Double points;
 }

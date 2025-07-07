@@ -4,10 +4,12 @@ import com.quizilla.dto.GroupDto;
 import com.quizilla.model.Group;
 import com.quizilla.repository.GroupRepository;
 import com.quizilla.util.ModelConverter;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -30,5 +32,26 @@ public class GroupServiceImpl implements GroupService {
     public void addGroup(GroupDto groupDto) {
         Group convertedGroup = modelConverter.convert(groupDto);
         groupRepository.save(convertedGroup);
+    }
+
+    @Override
+    public List<GroupDto> editGroup(GroupDto groupDto) {
+        Optional<Group>groupOptional = groupRepository.findById(groupDto.getId());
+        groupOptional.ifPresent(group -> {
+            group.setName(groupDto.getName);
+            group.setPoints(groupDto.getPoints());
+        });
+
+        List<Group> groups = groupRepository.findAll();
+        return modelConverter.convertGroupsToDtoList(groups);
+    }
+
+    @Override
+    @Transactional
+    public List<GroupDto> deleteGroup(Integer id) {
+        groupRepository.deleteById(id);
+
+        List<Group> groups = groupRepository.findAll();
+        return modelConverter.convertGroupsToDtoList(groups);
     }
 }

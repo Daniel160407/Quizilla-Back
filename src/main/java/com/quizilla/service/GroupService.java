@@ -8,5 +8,10 @@ import java.util.List;
 @Service
 public interface GroupService {
     List<GroupDto> getGroups();
+
     void addGroup(GroupDto groupDto);
+
+    List<GroupDto> editGroup(GroupDto groupDto);
+
+    List<GroupDto> deleteGroup(Integer id);
 }
