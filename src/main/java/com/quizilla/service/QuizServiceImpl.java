@@ -48,6 +48,7 @@ public class QuizServiceImpl implements QuizService {
             quiz.setMediaUrl(quizDto.getMediaUrl());
             quiz.setPoints(quizDto.getPoints());
             quiz.setHint(quizDto.getHint());
+            quizRepository.save(quiz);
         });
 
         List<Quiz> quizzes = quizRepository.findAll();

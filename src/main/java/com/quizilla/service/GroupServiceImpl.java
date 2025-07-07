@@ -40,6 +40,7 @@ public class GroupServiceImpl implements GroupService {
         groupOptional.ifPresent(group -> {
             group.setName(groupDto.getName());
             group.setPoints(groupDto.getPoints());
+            groupRepository.save(group);
         });
 
         List<Group> groups = groupRepository.findAll();

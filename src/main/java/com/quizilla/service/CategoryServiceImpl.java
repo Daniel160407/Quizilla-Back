@@ -40,7 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> editCategory(CategoryDto categoryDto) {
         Optional<Category> categoryOptional = categoryRepository.findById(categoryDto.getId());
-        categoryOptional.ifPresent(category -> category.setName(categoryDto.getName()));
+        categoryOptional.ifPresent(category -> {
+            category.setName(categoryDto.getName());
+            categoryRepository.save(category);
+        });
 
         List<Category> categories = categoryRepository.findAll();
         return modelConverter.convertCategoriesToDtoList(categories);
