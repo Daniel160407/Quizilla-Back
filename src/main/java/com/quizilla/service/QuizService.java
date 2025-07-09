@@ -13,5 +13,7 @@ public interface QuizService {
 
     List<QuizDto> editQuiz(QuizDto quizDto);
 
+    void enableQuiz(Integer id, Boolean enable);
+
     List<QuizDto> deleteQuiz(Integer id);
 }

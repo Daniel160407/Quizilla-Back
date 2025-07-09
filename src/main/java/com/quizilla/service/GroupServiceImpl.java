@@ -30,7 +30,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void addGroup(GroupDto groupDto) {
+        groupDto.setPoints(0d);
         Group convertedGroup = modelConverter.convert(groupDto);
+        System.err.println(convertedGroup);
         groupRepository.save(convertedGroup);
     }
 
@@ -40,6 +42,7 @@ public class GroupServiceImpl implements GroupService {
         groupOptional.ifPresent(group -> {
             group.setName(groupDto.getName());
             group.setPoints(groupDto.getPoints());
+            groupRepository.save(group);
         });
 
         List<Group> groups = groupRepository.findAll();

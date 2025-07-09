@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/quizilla/group")
+@CrossOrigin(origins = "*")
 public class GroupController {
     private final GroupService groupService;
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "group")
+@Table(name = "`group`")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,8 @@ public class Group {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "image_url")
+    private String imageUrl;
     @Column(name = "points")
     private Double points;
 }
