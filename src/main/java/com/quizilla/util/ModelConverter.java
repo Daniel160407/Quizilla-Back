@@ -25,6 +25,7 @@ public class ModelConverter {
                         .mediaUrl(quiz.getMediaUrl())
                         .points(quiz.getPoints())
                         .hint(quiz.getHint())
+                        .enabled(quiz.getEnabled())
                         .build()
         ));
         return quizDtos;
@@ -32,7 +33,7 @@ public class ModelConverter {
 
     public List<GroupDto> convertGroupsToDtoList(List<Group> groups) {
         List<GroupDto> groupDtos = new ArrayList<>();
-        groups.forEach(group -> groupDtos.add(new GroupDto(group.getId(), group.getName(), group.getPoints())));
+        groups.forEach(group -> groupDtos.add(new GroupDto(group.getId(), group.getName(), group.getImageUrl(), group.getPoints())));
         return groupDtos;
     }
 
@@ -42,7 +43,7 @@ public class ModelConverter {
         return categoryDtos;
     }
 
-    public Quiz convert(QuizDto quizDto) {
+    public Quiz convert(QuizDto quizDto, Integer enabled) {
         return Quiz.builder()
                 .categoryId(quizDto.getCategoryId())
                 .type(quizDto.getType())
@@ -51,6 +52,7 @@ public class ModelConverter {
                 .mediaUrl(quizDto.getMediaUrl())
                 .points(quizDto.getPoints())
                 .hint(quizDto.getHint())
+                .enabled(enabled)
                 .build();
     }
 
@@ -58,6 +60,7 @@ public class ModelConverter {
         return Group.builder()
                 .id(groupDto.getId())
                 .name(groupDto.getName())
+                .imageUrl(groupDto.getImageUrl())
                 .points(groupDto.getPoints())
                 .build();
     }

@@ -18,6 +18,18 @@ public class QuizDto {
     private String mediaUrl;
     private Double points;
     private String hint;
+    private Integer enabled;
+
+    public QuizDto(Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint, Integer enabled) {
+        this.categoryId = categoryId;
+        this.type = type;
+        this.question = question;
+        this.answer = answer;
+        this.mediaUrl = mediaUrl;
+        this.points = points;
+        this.hint = hint;
+        this.enabled = enabled;
+    }
 
     public QuizDto(Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint) {
         this.categoryId = categoryId;

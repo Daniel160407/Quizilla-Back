@@ -39,6 +39,13 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(quizDtos);
     }
 
+    @PutMapping("/enable")
+    public ResponseEntity<?> disableQuiz(@RequestParam Integer id,
+                                         @RequestParam Boolean enable) {
+        quizService.enableQuiz(id, enable);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping
     public ResponseEntity<?> deleteQuiz(@RequestParam Integer id) {
         List<QuizDto> quizDtos = quizService.deleteQuiz(id);

@@ -30,7 +30,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<QuizDto> addQuiz(QuizDto quizDto) {
-        Quiz convertedQuiz = modelConverter.convert(quizDto);
+        Quiz convertedQuiz = modelConverter.convert(quizDto, 0);
         quizRepository.save(convertedQuiz);
 
         List<Quiz> quizzes = quizRepository.findAll();
@@ -53,6 +53,16 @@ public class QuizServiceImpl implements QuizService {
 
         List<Quiz> quizzes = quizRepository.findAll();
         return modelConverter.convertQuizzesToDtoList(quizzes);
+    }
+
+    @Override
+    public void enableQuiz(Integer id, Boolean enable) {
+        Optional<Quiz> quizOptional = quizRepository.findById(id);
+        quizOptional.ifPresent(quiz -> {
+            Integer enabled = enable ? 0 : 1;
+            quiz.setEnabled(enabled);
+            quizRepository.save(quiz);
+        });
     }
 
     @Override

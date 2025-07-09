@@ -12,5 +12,11 @@ import lombok.NoArgsConstructor;
 public class GroupDto {
     private Integer id;
     private String name;
+    private String imageUrl;
     private Double points;
+
+    public GroupDto(String name, String imageUrl) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+    }
 }
