@@ -25,7 +25,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizDto> getQuizzes() {
         List<Quiz> quizzes = quizRepository.findAll();
-        return modelConverter.convertQuizzesToDtoList(quizzes);
+        return modelConverter.convertQuizzesToDtoList(sortQuizzesByType(quizzes));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class QuizServiceImpl implements QuizService {
         quizRepository.save(convertedQuiz);
 
         List<Quiz> quizzes = quizRepository.findAll();
-        return modelConverter.convertQuizzesToDtoList(quizzes);
+        return modelConverter.convertQuizzesToDtoList(sortQuizzesByType(quizzes));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class QuizServiceImpl implements QuizService {
         });
 
         List<Quiz> quizzes = quizRepository.findAll();
-        return modelConverter.convertQuizzesToDtoList(quizzes);
+        return modelConverter.convertQuizzesToDtoList(sortQuizzesByType(quizzes));
     }
 
     @Override
@@ -71,6 +71,15 @@ public class QuizServiceImpl implements QuizService {
         quizRepository.deleteById(id);
 
         List<Quiz> quizzes = quizRepository.findAll();
-        return modelConverter.convertQuizzesToDtoList(quizzes);
+        return modelConverter.convertQuizzesToDtoList(sortQuizzesByType(quizzes));
+    }
+
+    private List<Quiz> sortQuizzesByType(List<Quiz> quizzes) {
+        quizzes.sort((q1, q2) -> {
+            String t1 = q1.getType();
+            String t2 = q2.getType();
+            return t1.compareToIgnoreCase(t2);
+        });
+        return quizzes;
     }
 }

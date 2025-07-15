@@ -9,9 +9,11 @@ import java.util.List;
 public interface GroupService {
     List<GroupDto> getGroups();
 
-    void addGroup(GroupDto groupDto);
+    List<GroupDto> addGroup(GroupDto groupDto);
 
     List<GroupDto> editGroup(GroupDto groupDto);
 
     List<GroupDto> deleteGroup(Integer id);
+
+    List<GroupDto> updatePointsFor(String groupName, double points);
 }
