@@ -22,21 +22,27 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getGroup() {
+    public ResponseEntity<?> getGroups() {
         List<GroupDto> groupDtos = groupService.getGroups();
         return ResponseEntity.ok(groupDtos);
     }
 
     @PostMapping
     public ResponseEntity<?> addGroup(@RequestBody GroupDto groupDto) {
-        groupService.addGroup(groupDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        List<GroupDto> groupDtos = groupService.addGroup(groupDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(groupDtos);
     }
 
     @PutMapping
     public ResponseEntity<?> editGroup(@RequestBody GroupDto groupDto) {
         List<GroupDto> groupDtos = groupService.editGroup(groupDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(groupDtos);
+    }
+
+    @PutMapping("/clear")
+    public ResponseEntity<?> clearPointsForAllGroups() {
+        List<GroupDto> groupDtos = groupService.clearPointsForAllGroups();
+        return ResponseEntity.ok(groupDtos);
     }
 
     @DeleteMapping

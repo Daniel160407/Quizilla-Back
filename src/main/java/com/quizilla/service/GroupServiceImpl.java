@@ -29,16 +29,18 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void addGroup(GroupDto groupDto) {
+    public List<GroupDto> addGroup(GroupDto groupDto) {
         groupDto.setPoints(0d);
         Group convertedGroup = modelConverter.convert(groupDto);
-        System.err.println(convertedGroup);
         groupRepository.save(convertedGroup);
+
+        List<Group> groups = groupRepository.findAll();
+        return modelConverter.convertGroupsToDtoList(groups);
     }
 
     @Override
     public List<GroupDto> editGroup(GroupDto groupDto) {
-        Optional<Group>groupOptional = groupRepository.findById(groupDto.getId());
+        Optional<Group> groupOptional = groupRepository.findById(groupDto.getId());
         groupOptional.ifPresent(group -> {
             group.setName(groupDto.getName());
             group.setPoints(groupDto.getPoints());
@@ -50,9 +52,33 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<GroupDto> clearPointsForAllGroups() {
+        List<Group> groups = groupRepository.findAll();
+        groups.forEach(group -> {
+            group.setPoints(0d);
+            groupRepository.save(group);
+        });
+
+        return modelConverter.convertGroupsToDtoList(groups);
+    }
+
+    @Override
     @Transactional
     public List<GroupDto> deleteGroup(Integer id) {
         groupRepository.deleteById(id);
+
+        List<Group> groups = groupRepository.findAll();
+        return modelConverter.convertGroupsToDtoList(groups);
+    }
+
+    @Override
+    public List<GroupDto> updatePointsFor(String groupName, double points) {
+        Optional<Group> groupOptional = groupRepository.findByName(groupName);
+        groupOptional.ifPresent(group -> {
+            double currentPoints = group.getPoints();
+            group.setPoints(currentPoints + points);
+            groupRepository.save(group);
+        });
 
         List<Group> groups = groupRepository.findAll();
         return modelConverter.convertGroupsToDtoList(groups);

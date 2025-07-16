@@ -70,4 +70,13 @@ public class ModelConverter {
                 .name(categoryDto.getName())
                 .build();
     }
+
+    public GroupDto convert(Group group) {
+        return GroupDto.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .imageUrl(group.getImageUrl())
+                .points(group.getPoints())
+                .build();
+    }
 }
