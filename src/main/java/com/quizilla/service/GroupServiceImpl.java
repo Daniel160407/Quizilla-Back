@@ -52,6 +52,17 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<GroupDto> clearPointsForAllGroups() {
+        List<Group> groups = groupRepository.findAll();
+        groups.forEach(group -> {
+            group.setPoints(0d);
+            groupRepository.save(group);
+        });
+
+        return modelConverter.convertGroupsToDtoList(groups);
+    }
+
+    @Override
     @Transactional
     public List<GroupDto> deleteGroup(Integer id) {
         groupRepository.deleteById(id);

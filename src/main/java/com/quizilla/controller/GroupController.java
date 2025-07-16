@@ -39,6 +39,12 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupDtos);
     }
 
+    @PutMapping("/clear")
+    public ResponseEntity<?> clearPointsForAllGroups() {
+        List<GroupDto> groupDtos = groupService.clearPointsForAllGroups();
+        return ResponseEntity.ok(groupDtos);
+    }
+
     @DeleteMapping
     public ResponseEntity<?> deleteGroup(@RequestParam Integer id) {
         List<GroupDto> groupDtos = groupService.deleteGroup(id);

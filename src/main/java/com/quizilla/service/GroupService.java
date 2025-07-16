@@ -13,6 +13,8 @@ public interface GroupService {
 
     List<GroupDto> editGroup(GroupDto groupDto);
 
+    List<GroupDto> clearPointsForAllGroups();
+
     List<GroupDto> deleteGroup(Integer id);
 
     List<GroupDto> updatePointsFor(String groupName, double points);
