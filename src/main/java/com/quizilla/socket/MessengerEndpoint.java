@@ -7,6 +7,7 @@ import com.quizilla.dto.QuizDto;
 import com.quizilla.model.Group;
 import com.quizilla.repository.GroupRepository;
 import com.quizilla.service.GroupService;
+import com.quizilla.util.Constants;
 import com.quizilla.util.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,12 +57,12 @@ public class MessengerEndpoint extends TextWebSocketHandler {
         String payload = textMessage.getPayload();
         MessageDto messageDto = objectMapper.readValue(payload, MessageDto.class);
 
-        if ("admin".equals(messageDto.getSender())) {
+        if (Constants.ADMIN_ROLE_STATIC.equals(messageDto.getSender())) {
             adminSession = session;
             handleAdminMessage(messageDto);
-        } else if ("player".equals(messageDto.getSender())) {
+        } else if (Constants.CLIENT_ROLE_STATIC.equals(messageDto.getSender())) {
             handlePlayerMessage(messageDto);
-        } else if ("projector".equals(messageDto.getSender())) {
+        } else if (Constants.PROJECTOR_ROLE_STATIC.equals(messageDto.getSender())) {
             handleAdminMessage(messageDto);
         } else {
             handleAnswerMessage(messageDto);
@@ -69,14 +70,14 @@ public class MessengerEndpoint extends TextWebSocketHandler {
     }
 
     private void handleAdminMessage(MessageDto messageDto) throws Exception {
-        if ("QUESTION".equals(messageDto.getType())) {
+        if (Constants.QUESTION_STATIC.equals(messageDto.getType())) {
             answeredGroups.clear();
 
             String quizJson = messageDto.getPayload();
-            MessageDto message = new MessageDto("admin", "QUESTION", quizJson);
+            MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUESTION_STATIC, quizJson);
             String jsonToSend = objectMapper.writeValueAsString(message);
             sendToAll(jsonToSend);
-        } else if ("QUESTION_CANCEL".equals(messageDto.getType())) {
+        } else if (Constants.QUESTION_CANCEL_STATIC.equals(messageDto.getType())) {
             if (actualQuiz != null) {
                 List<String> answers = Arrays.asList(actualQuiz.getAnswer().split(", "));
 
@@ -89,33 +90,33 @@ public class MessengerEndpoint extends TextWebSocketHandler {
             List<GroupDto> groupDtos = groupService.getGroups();
             String groupsJson = objectMapper.writeValueAsString(groupDtos);
 
-            MessageDto message = new MessageDto("admin", "QUESTION_CANCEL", groupsJson);
+            MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUESTION_CANCEL_STATIC, groupsJson);
             String jsonToSend = objectMapper.writeValueAsString(message);
             sendToAll(jsonToSend);
-        } else if ("QUIZ_START".equals(messageDto.getType())) {
+        } else if (Constants.QUIZ_START_STATIC.equals(messageDto.getType())) {
             actualQuiz = objectMapper.readValue(messageDto.getPayload(), QuizDto.class);
 
             quizStartTime = LocalTime.now();
-            MessageDto message = new MessageDto("admin", "QUIZ_START", "");
+            MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUIZ_START_STATIC, "");
             String jsonToSend = objectMapper.writeValueAsString(message);
             sendToAll(jsonToSend);
         }
     }
 
     private void handlePlayerMessage(MessageDto messageDto) throws Exception {
-        if ("GROUP_CREATION".equals(messageDto.getType())) {
+        if (Constants.GROUP_CREATION_STATIC.equals(messageDto.getType())) {
             String groupJson = messageDto.getPayload();
             GroupDto groupDto = objectMapper.readValue(groupJson, GroupDto.class);
             List<GroupDto> groupDtos = groupService.addGroup(groupDto);
 
             String jsonToSend = objectMapper.writeValueAsString(groupDtos);
-            MessageDto messageToSend = new MessageDto("server", "GROUP_CREATED", jsonToSend);
+            MessageDto messageToSend = new MessageDto(Constants.SERVER_ROLE_STATIC, Constants.GROUP_CREATED_STATIC, jsonToSend);
             sendToAll(objectMapper.writeValueAsString(messageToSend));
         }
     }
 
     private void handleAnswerMessage(MessageDto messageDto) throws Exception {
-        if ("ANSWER".equals(messageDto.getType())) {
+        if (Constants.ANSWER_STATIC.equals(messageDto.getType())) {
             Map<String, Object> answerData = objectMapper.readValue(messageDto.getPayload(), Map.class);
             boolean isCorrect = Boolean.parseBoolean(answerData.get("isCorrect").toString());
             QuizDto quizDto = objectMapper.convertValue(answerData.get("quiz"), QuizDto.class);
@@ -160,7 +161,7 @@ public class MessengerEndpoint extends TextWebSocketHandler {
                 GroupDto groupDto = modelConverter.convert(groupOptional.get());
                 String payloadJson = objectMapper.writeValueAsString(groupDto);
 
-                MessageDto message = new MessageDto("server", "PLAYER_ANSWERED", payloadJson);
+                MessageDto message = new MessageDto(Constants.SERVER_ROLE_STATIC, Constants.PLAYER_ANSWERED_STATIC, payloadJson);
                 String messageJson = objectMapper.writeValueAsString(message);
                 adminSession.sendMessage(new TextMessage(messageJson));
             }
@@ -229,16 +230,13 @@ public class MessengerEndpoint extends TextWebSocketHandler {
         List<Group> groups = groupRepository.findAll();
 
         for (Group listGroup : groups) {
-            // Skip comparing with itself
             if (listGroup.getName().equals(group.getName())) continue;
 
-            // If any group is NOT ahead by more than 100, then it's not losing
             if (listGroup.getPoints() - group.getPoints() <= 100) {
                 return false;
             }
         }
 
-        // All other groups are ahead by more than 100
         return true;
     }
 
