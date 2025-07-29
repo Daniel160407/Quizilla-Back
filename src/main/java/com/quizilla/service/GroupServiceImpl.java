@@ -43,6 +43,7 @@ public class GroupServiceImpl implements GroupService {
         Optional<Group> groupOptional = groupRepository.findById(groupDto.getId());
         groupOptional.ifPresent(group -> {
             group.setName(groupDto.getName());
+            group.setImageUrl(groupDto.getImageUrl());
             group.setPoints(groupDto.getPoints());
             groupRepository.save(group);
         });
