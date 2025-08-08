@@ -32,5 +32,5 @@ public class Quiz {
     @Column(name = "hint")
     private String hint;
     @Column(name = "enabled")
-    private Integer enabled; //1 - true, 2 - false
+    private Integer enabled;
 }

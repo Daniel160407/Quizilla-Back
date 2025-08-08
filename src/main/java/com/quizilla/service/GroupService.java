@@ -18,4 +18,8 @@ public interface GroupService {
     List<GroupDto> deleteGroup(Integer id);
 
     List<GroupDto> updatePointsFor(String groupName, double points);
+
+    void updateCorrectAnswerFor(String groupName, boolean isCorrect);
+
+    void resetCorrectAnswers();
 }

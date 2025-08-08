@@ -23,4 +23,6 @@ public class Group {
     private String imageUrl;
     @Column(name = "points")
     private Double points;
+    @Column(name = "correct_answer")
+    private Integer correctAnswer;
 }
