@@ -33,9 +33,27 @@ public class ModelConverter {
 
     public List<GroupDto> convertGroupsToDtoList(List<Group> groups) {
         List<GroupDto> groupDtos = new ArrayList<>();
-        groups.forEach(group -> groupDtos.add(new GroupDto(group.getId(), group.getName(), group.getImageUrl(), group.getPoints())));
+
+        for (Group group : groups) {
+            GroupDto.GroupDtoBuilder builder = GroupDto.builder()
+                    .id(group.getId())
+                    .name(group.getName())
+                    .imageUrl(group.getImageUrl())
+                    .points(group.getPoints());
+
+            int correctAnswer = group.getCorrectAnswer();
+            if (correctAnswer == 0) {
+                builder.correctAnswer(true);
+            } else if (correctAnswer == 1) {
+                builder.correctAnswer(false);
+            }
+
+            groupDtos.add(builder.build());
+        }
+
         return groupDtos;
     }
+
 
     public List<CategoryDto> convertCategoriesToDtoList(List<Category> categories) {
         List<CategoryDto> categoryDtos = new ArrayList<>();
@@ -72,11 +90,19 @@ public class ModelConverter {
     }
 
     public GroupDto convert(Group group) {
-        return GroupDto.builder()
+        GroupDto.GroupDtoBuilder builder = GroupDto.builder()
                 .id(group.getId())
                 .name(group.getName())
                 .imageUrl(group.getImageUrl())
-                .points(group.getPoints())
-                .build();
+                .points(group.getPoints());
+
+        if (group.getCorrectAnswer() == 0) {
+            builder.correctAnswer(true);
+        } else if (group.getCorrectAnswer() == 1) {
+            builder.correctAnswer(false);
+        }
+
+        return builder.build();
     }
+
 }

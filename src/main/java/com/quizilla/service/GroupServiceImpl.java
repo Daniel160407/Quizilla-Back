@@ -32,6 +32,7 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDto> addGroup(GroupDto groupDto) {
         groupDto.setPoints(0d);
         Group convertedGroup = modelConverter.convert(groupDto);
+        convertedGroup.setCorrectAnswer(2);
         groupRepository.save(convertedGroup);
 
         List<Group> groups = groupRepository.findAll();
@@ -83,5 +84,22 @@ public class GroupServiceImpl implements GroupService {
 
         List<Group> groups = groupRepository.findAll();
         return modelConverter.convertGroupsToDtoList(groups);
+    }
+
+    @Transactional
+    @Override
+    public void updateCorrectAnswerFor(String groupName, boolean isCorrect) {
+        Optional<Group> groupOptional = groupRepository.findByName(groupName);
+        groupOptional.ifPresent(group -> {
+            group.setCorrectAnswer(isCorrect ? 0 : 1);
+            groupRepository.save(group);
+        });
+    }
+
+    @Override
+    public void resetCorrectAnswers() {
+        List<Group> groups = groupRepository.findAll();
+        groups.forEach(group -> group.setCorrectAnswer(2));
+        groupRepository.saveAll(groups);
     }
 }

@@ -14,9 +14,17 @@ public class GroupDto {
     private String name;
     private String imageUrl;
     private Double points;
+    private Boolean correctAnswer;
 
     public GroupDto(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
+    }
+
+    public GroupDto(Integer id, String name, String imageUrl, Double points) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.points = points;
     }
 }

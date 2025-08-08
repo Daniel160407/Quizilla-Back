@@ -93,11 +93,15 @@ public class MessengerEndpoint extends TextWebSocketHandler {
             MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUESTION_CANCEL_STATIC, groupsJson);
             String jsonToSend = objectMapper.writeValueAsString(message);
             sendToAll(jsonToSend);
+            groupService.resetCorrectAnswers();
         } else if (Constants.QUIZ_START_STATIC.equals(messageDto.getType())) {
             actualQuiz = objectMapper.readValue(messageDto.getPayload(), QuizDto.class);
 
+            List<GroupDto> groupDtos = groupService.getGroups();
+            String groupsJson = objectMapper.writeValueAsString(groupDtos);
+
             quizStartTime = LocalTime.now();
-            MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUIZ_START_STATIC, "");
+            MessageDto message = new MessageDto(Constants.ADMIN_ROLE_STATIC, Constants.QUIZ_START_STATIC, groupsJson);
             String jsonToSend = objectMapper.writeValueAsString(message);
             sendToAll(jsonToSend);
         }
@@ -157,8 +161,10 @@ public class MessengerEndpoint extends TextWebSocketHandler {
                 }
 
                 groupService.updatePointsFor(groupName, pointsAwarded);
+                groupService.updateCorrectAnswerFor(groupName, isCorrect);
                 Optional<Group> groupOptional = groupRepository.findByName(groupName);
                 GroupDto groupDto = modelConverter.convert(groupOptional.get());
+                groupDto.setCorrectAnswer(isCorrect);
                 String payloadJson = objectMapper.writeValueAsString(groupDto);
 
                 MessageDto message = new MessageDto(Constants.SERVER_ROLE_STATIC, Constants.PLAYER_ANSWERED_STATIC, payloadJson);
