@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QuizDto {
     private Integer id;
+    private Integer gameId;
     private Integer categoryId;
     private String type;
     private String question;
@@ -20,7 +21,8 @@ public class QuizDto {
     private String hint;
     private Integer enabled;
 
-    public QuizDto(Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint, Integer enabled) {
+    public QuizDto(Integer gameId, Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint, Integer enabled) {
+        this.gameId = gameId;
         this.categoryId = categoryId;
         this.type = type;
         this.question = question;
@@ -31,7 +33,8 @@ public class QuizDto {
         this.enabled = enabled;
     }
 
-    public QuizDto(Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint) {
+    public QuizDto(Integer gameId, Integer categoryId, String type, String question, String answer, String mediaUrl, Double points, String hint) {
+        this.gameId = gameId;
         this.categoryId = categoryId;
         this.type = type;
         this.question = question;

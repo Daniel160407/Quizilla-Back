@@ -1,9 +1,11 @@
 package com.quizilla.util;
 
 import com.quizilla.dto.CategoryDto;
+import com.quizilla.dto.GameDto;
 import com.quizilla.dto.GroupDto;
 import com.quizilla.dto.QuizDto;
 import com.quizilla.model.Category;
+import com.quizilla.model.Game;
 import com.quizilla.model.Group;
 import com.quizilla.model.Quiz;
 import org.springframework.stereotype.Component;
@@ -57,12 +59,13 @@ public class ModelConverter {
 
     public List<CategoryDto> convertCategoriesToDtoList(List<Category> categories) {
         List<CategoryDto> categoryDtos = new ArrayList<>();
-        categories.forEach(category -> categoryDtos.add(new CategoryDto(category.getId(), category.getName())));
+        categories.forEach(category -> categoryDtos.add(new CategoryDto(category.getId(), category.getGameId(), category.getName())));
         return categoryDtos;
     }
 
     public Quiz convert(QuizDto quizDto, Integer enabled) {
         return Quiz.builder()
+                .gameId(quizDto.getGameId())
                 .categoryId(quizDto.getCategoryId())
                 .type(quizDto.getType())
                 .question(quizDto.getQuestion())
@@ -85,6 +88,7 @@ public class ModelConverter {
 
     public Category convert(CategoryDto categoryDto) {
         return Category.builder()
+                .gameId(categoryDto.getGameId())
                 .name(categoryDto.getName())
                 .build();
     }
@@ -105,4 +109,17 @@ public class ModelConverter {
         return builder.build();
     }
 
+    public Game convert(GameDto gameDto) {
+        return Game.builder()
+                .name(gameDto.getName())
+                .dateCreated(gameDto.getDateCreated())
+                .build();
+    }
+
+    public List<GameDto> convertGamesToDtoList(List<Game> games) {
+        List<GameDto> gameDtos = new ArrayList<>();
+        games.forEach(game -> gameDtos.add(new GameDto(game.getId(), game.getName(), game.getDateCreated())));
+
+        return gameDtos;
+    }
 }

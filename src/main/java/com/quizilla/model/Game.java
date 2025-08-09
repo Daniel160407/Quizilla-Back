@@ -11,20 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "`group`")
-public class Group {
+@Table(name = "game")
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "game_id")
-    private Integer gameId;
     @Column(name = "name")
     private String name;
-    @Column(name = "image_url")
-    private String imageUrl;
-    @Column(name = "points")
-    private Double points;
-    @Column(name = "correct_answer")
-    private Integer correctAnswer;
+    @Column(name = "date_created")
+    private String dateCreated;
 }

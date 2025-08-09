@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface CategoryService {
-    List<CategoryDto> getCategories();
+    List<CategoryDto> getCategories(Integer gameId);
 
     List<CategoryDto> addCategory(CategoryDto categoryDto);
 

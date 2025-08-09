@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface QuizService {
-    List<QuizDto> getQuizzes();
+    List<QuizDto> getQuizzes(Integer gameId);
 
     List<QuizDto> addQuiz(QuizDto quizDto);
 
