@@ -22,8 +22,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getCategories() {
-        List<CategoryDto> categoryDtos = categoryService.getCategories();
+    public ResponseEntity<?> getCategories(@RequestParam Integer gameid) {
+        List<CategoryDto> categoryDtos = categoryService.getCategories(gameid);
         return ResponseEntity.ok(categoryDtos);
     }
 

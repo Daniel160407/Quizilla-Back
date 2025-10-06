@@ -23,8 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
+    public List<CategoryDto> getCategories(Integer gameId) {
+        List<Category> categories = categoryRepository.findAllByGameId(gameId);
         return modelConverter.convertCategoriesToDtoList(categories);
     }
 
@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category convertedCategory = modelConverter.convert(categoryDto);
         categoryRepository.save(convertedCategory);
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAllByGameId(categoryDto.getGameId());
         return modelConverter.convertCategoriesToDtoList(categories);
     }
 
@@ -45,16 +45,17 @@ public class CategoryServiceImpl implements CategoryService {
             categoryRepository.save(category);
         });
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAllByGameId(categoryDto.getGameId());
         return modelConverter.convertCategoriesToDtoList(categories);
     }
 
     @Override
     @Transactional
     public List<CategoryDto> deleteCategory(Integer id) {
+        Integer gameId = categoryRepository.findById(id).get().getGameId();
         categoryRepository.deleteById(id);
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAllByGameId(gameId);
         return modelConverter.convertCategoriesToDtoList(categories);
     }
 }

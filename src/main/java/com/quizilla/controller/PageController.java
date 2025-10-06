@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class PageController {
 
-    @GetMapping(value = { "", "/dashboard", "/categories", "/quizzes", "/groups", "/projector"})
+    @GetMapping(value = { "", "/games", "/dashboard", "/categories", "/quizzes", "/groups", "/projector"})
     public Resource getPage() {
         return new ClassPathResource("/static/index.html");
     }

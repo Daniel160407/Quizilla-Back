@@ -22,8 +22,8 @@ public class QuizController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getQuizzes() {
-        List<QuizDto> quizDtos = quizService.getQuizzes();
+    public ResponseEntity<?> getQuizzes(@RequestParam Integer gameid) {
+        List<QuizDto> quizDtos = quizService.getQuizzes(gameid);
         return ResponseEntity.ok(quizDtos);
     }
 

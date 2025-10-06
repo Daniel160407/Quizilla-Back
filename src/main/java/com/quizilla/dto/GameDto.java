@@ -9,17 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
+public class GameDto {
     private Integer id;
-    private Integer gameId;
     private String name;
-
-    public CategoryDto(String name) {
-        this.name = name;
-    }
-
-    public CategoryDto(Integer gameId, String name) {
-        this.gameId = gameId;
-        this.name = name;
-    }
+    private String dateCreated;
 }
